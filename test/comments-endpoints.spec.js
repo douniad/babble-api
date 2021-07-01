@@ -2,7 +2,7 @@ const knex = require('knex')
 const app = require('../src/app')
 const helpers = require('./test-helpers')
 
-describe('Comments Endpoints', function() {
+describe('Updates Endpoints', function() {
   let db
 
   const {
@@ -24,7 +24,7 @@ describe('Comments Endpoints', function() {
 
   afterEach('cleanup', () => helpers.cleanTables(db))
 
-  describe(`POST /api/comments`, () => {
+  describe(`POST /api/updates`, () => {
     beforeEach('insert articles', () =>
       helpers.seedArticlesTables(
         db,
@@ -33,38 +33,38 @@ describe('Comments Endpoints', function() {
       )
     )
 
-    it(`creates an comment, responding with 201 and the new comment`, function() {
+    it(`creates an update, responding with 201 and the new update`, function() {
       this.retries(3)
       const testArticle = testArticles[0]
       const testUser = testUsers[0]
-      const newComment = {
-        text: 'Test new comment',
+      const newUpdate = {
+        text: 'Test new update',
         article_id: testArticle.id,
       }
       return supertest(app)
-        .post('/api/comments')
+        .post('/api/updates')
         .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
-        .send(newComment)
+        .send(newUpdate)
         .expect(201)
         .expect(res => {
           expect(res.body).to.have.property('id')
-          expect(res.body.text).to.eql(newComment.text)
-          expect(res.body.article_id).to.eql(newComment.article_id)
+          expect(res.body.text).to.eql(newUpdate.text)
+          expect(res.body.article_id).to.eql(newUpdate.article_id)
           expect(res.body.user.id).to.eql(testUser.id)
-          expect(res.headers.location).to.eql(`/api/comments/${res.body.id}`)
+          expect(res.headers.location).to.eql(`/api/updates/${res.body.id}`)
           const expectedDate = new Date().toLocaleString('en', { timeZone: 'UTC' })
           const actualDate = new Date(res.body.date_created).toLocaleString()
           expect(actualDate).to.eql(expectedDate)
         })
         .expect(res =>
           db
-            .from('comments')
+            .from('updates')
             .select('*')
             .where({ id: res.body.id })
             .first()
             .then(row => {
-              expect(row.text).to.eql(newComment.text)
-              expect(row.article_id).to.eql(newComment.article_id)
+              expect(row.text).to.eql(newUpdate.text)
+              expect(row.article_id).to.eql(newUpdate.article_id)
               expect(row.user_id).to.eql(testUser.id)
               const expectedDate = new Date().toLocaleString('en', { timeZone: 'UTC' })
               const actualDate = new Date(row.date_created).toLocaleString()
@@ -78,18 +78,18 @@ describe('Comments Endpoints', function() {
     requiredFields.forEach(field => {
       const testArticle = testArticles[0]
       const testUser = testUsers[0]
-      const newComment = {
-        text: 'Test new comment',
+      const newUpdate = {
+        text: 'Test new update',
         article_id: testArticle.id,
       }
 
       it(`responds with 400 and an error message when the '${field}' is missing`, () => {
-        delete newComment[field]
+        delete newUpdate[field]
 
         return supertest(app)
-          .post('/api/comments')
+          .post('/api/updates')
           .set('Authorization', helpers.makeAuthHeader(testUser))
-          .send(newComment)
+          .send(newUpdate)
           .expect(400, {
             error: `Missing '${field}' in request body`,
           })

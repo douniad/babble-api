@@ -3,16 +3,43 @@ const ChildrenService = require('./children-service')
 const { requireAuth } = require('../middleware/jwt-auth')
 
 const childrenRouter = express.Router()
+const jsonBodyParser = express.json()
 
 childrenRouter
   .route('/')
   .get((req, res, next) => {
     ChildrenService.getAllChildren(req.app.get('db'))
       .then(children => {
+        console.log(children)
         res.json(children.map(ChildrenService.serializeChild))
       })
       .catch(next)
   })
+ 
+  .post(requireAuth, jsonBodyParser, (req, res, next) => {
+    const { name } = req.body
+    const newChild = { name }
+
+    for (const [key, value] of Object.entries(newChild))
+      if (value == null)
+        return res.status(400).json({
+          error: `Missing '${key}' in request body`
+        })
+
+    newChild.user_id = req.user.id
+
+   ChildrenService.insertChild(
+      req.app.get('db'),
+      newChild
+    )
+      .then(child => {
+        res
+          .status(201)
+          
+          .json(ChildrenService.serializeChild(child))
+      })
+      .catch(next)
+    })
 
 childrenRouter
   .route('/:child_id')
@@ -22,16 +49,16 @@ childrenRouter
     res.json(ChildrenService.serializeChild(res.child))
   })
 
-childrenRouter.route('/:child_id/comments/')
+childrenRouter.route('/:child_id/updates/')
   .all(requireAuth)
   .all(checkChildExists)
   .get((req, res, next) => {
-    ChildrenService.getCommentsForChild(
+    ChildrenService.getUpdatesForChild(
       req.app.get('db'),
       req.params.child_id
     )
-      .then(comments => {
-        res.json(comments.map(ChildrenService.serializeChildComment))
+      .then(updates => {
+        res.json(updates.map(ChildrenService.serializeChildUpdate))
       })
       .catch(next)
   })

@@ -8,7 +8,7 @@ describe('Articles Endpoints', function() {
   const {
     testUsers,
     testArticles,
-    testComments,
+    testUpdates,
   } = helpers.makeArticlesFixtures()
 
   before('make knex instance', () => {
@@ -40,7 +40,7 @@ describe('Articles Endpoints', function() {
           db,
           testUsers,
           testArticles,
-          testComments,
+          testUpdates,
         )
       )
 
@@ -49,7 +49,7 @@ describe('Articles Endpoints', function() {
           helpers.makeExpectedArticle(
             testUsers,
             article,
-            testComments,
+            testUpdates,
           )
         )
         return supertest(app)
@@ -106,7 +106,7 @@ describe('Articles Endpoints', function() {
           db,
           testUsers,
           testArticles,
-          testComments,
+          testUpdates,
         )
       )
 
@@ -115,7 +115,7 @@ describe('Articles Endpoints', function() {
         const expectedArticle = helpers.makeExpectedArticle(
           testUsers,
           testArticles[articleId - 1],
-          testComments,
+          testUpdates,
         )
 
         return supertest(app)
@@ -153,7 +153,7 @@ describe('Articles Endpoints', function() {
     })
   })
 
-  describe(`GET /api/articles/:article_id/comments`, () => {
+  describe(`GET /api/articles/:article_id/updates`, () => {
     context(`Given no articles`, () => {
       beforeEach(() =>
         helpers.seedUsers(db, testUsers)
@@ -162,32 +162,32 @@ describe('Articles Endpoints', function() {
       it(`responds with 404`, () => {
         const articleId = 123456
         return supertest(app)
-          .get(`/api/articles/${articleId}/comments`)
+          .get(`/api/articles/${articleId}/updates`)
           .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
           .expect(404, { error: `Article doesn't exist` })
       })
     })
 
-    context('Given there are comments for article in the database', () => {
+    context('Given there are updates for article in the database', () => {
       beforeEach('insert articles', () =>
         helpers.seedArticlesTables(
           db,
           testUsers,
           testArticles,
-          testComments,
+          testUpdates,
         )
       )
 
-      it('responds with 200 and the specified comments', () => {
+      it('responds with 200 and the specified updates', () => {
         const articleId = 1
-        const expectedComments = helpers.makeExpectedArticleComments(
-          testUsers, articleId, testComments
+        const expectedUpdates = helpers.makeExpectedArticleUpdates(
+          testUsers, articleId, testUpdates
         )
 
         return supertest(app)
-          .get(`/api/articles/${articleId}/comments`)
+          .get(`/api/articles/${articleId}/updates`)
           .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
-          .expect(200, expectedComments)
+          .expect(200, expectedUpdates)
       })
     })
   })

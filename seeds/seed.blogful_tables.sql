@@ -1,7 +1,7 @@
 BEGIN;
 
 TRUNCATE
-  comments,
+  updates,
   articles,
   users
   RESTART IDENTITY CASCADE;
@@ -38,7 +38,7 @@ VALUES
   ( 'Tenth post', 'How-to', 4,
     'Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum molestiae accusamus veniam consectetur tempora, corporis obcaecati ad nisi asperiores tenetur, autem magnam. Iste, architecto obcaecati tenetur quidem voluptatum ipsa quam?');
 
-INSERT INTO comments (
+INSERT INTO updates (
   text,
   article_id,
   user_id
@@ -119,7 +119,7 @@ INSERT INTO comments (
     4
   ),
   (
-    'Just a lonely comment',
+    'Just a lonely update',
     9,
     6
   ),

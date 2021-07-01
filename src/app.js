@@ -4,7 +4,7 @@ const cors = require('cors')
 const helmet = require('helmet')
 const { NODE_ENV } = require('./config')
 const childrenRouter = require('./children/children-router')
-const commentsRouter = require('./comments/comments-router')
+const updatesRouter = require('./updates/updates-router')
 const authRouter = require('./auth/auth-router')
 const usersRouter = require('./users/users-router')
 
@@ -17,7 +17,7 @@ app.use(cors())
 app.use(helmet())
 
 app.use('/api/children', childrenRouter)
-app.use('/api/comments', commentsRouter)
+app.use('/api/updates', updatesRouter)
 app.use('/api/auth', authRouter)
 app.use('/api/users', usersRouter)
 

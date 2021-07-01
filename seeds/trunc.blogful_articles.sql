@@ -1,5 +1,5 @@
 TRUNCATE
-  comments,
+  updates,
   articles,
   users
   RESTART IDENTITY CASCADE;

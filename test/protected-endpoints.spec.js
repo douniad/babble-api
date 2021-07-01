@@ -8,7 +8,7 @@ describe('Protected endpoints', function() {
   const {
     testUsers,
     testArticles,
-    testComments,
+    testUpdates,
   } = helpers.makeArticlesFixtures()
 
   before('make knex instance', () => {
@@ -30,7 +30,7 @@ describe('Protected endpoints', function() {
       db,
       testUsers,
       testArticles,
-      testComments,
+      testUpdates,
     )
   )
 
@@ -41,13 +41,13 @@ describe('Protected endpoints', function() {
       method: supertest(app).get,
     },
     {
-      name: 'GET /api/articles/:article_id/comments',
-      path: '/api/articles/1/comments',
+      name: 'GET /api/articles/:article_id/updates',
+      path: '/api/articles/1/updates',
       method: supertest(app).get,
     },
     {
-      name: 'POST /api/comments',
-      path: '/api/comments',
+      name: 'POST /api/updates',
+      path: '/api/updates',
       method: supertest(app).post,
     },
     {
