@@ -25,7 +25,7 @@ describe('Protected endpoints', function() {
 
   afterEach('cleanup', () => helpers.cleanTables(db))
 
-  beforeEach('insert articles', () =>
+  beforeEach('insert children', () =>
     helpers.seedArticlesTables(
       db,
       testUsers,
@@ -36,13 +36,13 @@ describe('Protected endpoints', function() {
 
   const protectedEndpoints = [
     {
-      name: 'GET /api/articles/:article_id',
-      path: '/api/articles/1',
+      name: 'GET /api/children/:child_id',
+      path: '/api/children/1',
       method: supertest(app).get,
     },
     {
-      name: 'GET /api/articles/:article_id/updates',
-      path: '/api/articles/1/updates',
+      name: 'GET /api/children/:child_id/updates',
+      path: '/api/children/1/updates',
       method: supertest(app).get,
     },
     {

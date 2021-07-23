@@ -1,6 +1,7 @@
 const express = require('express')
 const morgan = require('morgan')
 const cors = require('cors')
+const {CLIENT_ORIGIN} = require('./config')
 const helmet = require('helmet')
 const { NODE_ENV } = require('./config')
 const childrenRouter = require('./children/children-router')
@@ -13,7 +14,10 @@ const app = express()
 app.use(morgan((NODE_ENV === 'production') ? 'tiny' : 'common', {
   skip: () => NODE_ENV === 'test',
 }))
-app.use(cors())
+app.use(
+  cors({
+    origin: CLIENT_ORIGIN
+  }))
 app.use(helmet())
 
 app.use('/api/children', childrenRouter)

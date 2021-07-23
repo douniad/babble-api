@@ -7,14 +7,15 @@ const jsonBodyParser = express.json()
 
 childrenRouter
   .route('/')
-  .get((req, res, next) => {
-    ChildrenService.getAllChildren(req.app.get('db'))
+  .get(requireAuth, (req, res, next) => {
+    ChildrenService.getAllChildren(req.app.get('db'), req.user.id)
       .then(children => {
         console.log(children)
         res.json(children.map(ChildrenService.serializeChild))
       })
       .catch(next)
   })
+
  
   .post(requireAuth, jsonBodyParser, (req, res, next) => {
     const { name } = req.body
@@ -41,12 +42,25 @@ childrenRouter
       .catch(next)
     })
 
+    
 childrenRouter
   .route('/:child_id')
   .all(requireAuth)
   .all(checkChildExists)
   .get((req, res) => {
     res.json(ChildrenService.serializeChild(res.child))
+  })
+  .delete((req, res) => {
+    const id = req.params.child_id
+
+    ChildrenService.removeChild(
+      req.app.get('db'),
+      id
+    )
+    .then(data => {
+      res
+      .sendStatus(204)
+    })
   })
 
 childrenRouter.route('/:child_id/updates/')

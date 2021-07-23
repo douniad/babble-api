@@ -7,7 +7,6 @@ function makeUsersArray() {
       id: 1,
       user_name: 'test-user-1',
       full_name: 'Test user 1',
-      nickname: 'TU1',
       password: 'password',
       date_created: new Date('2029-01-22T16:28:32.615Z'),
     },
@@ -15,7 +14,6 @@ function makeUsersArray() {
       id: 2,
       user_name: 'test-user-2',
       full_name: 'Test user 2',
-      nickname: 'TU2',
       password: 'password',
       date_created: new Date('2029-01-22T16:28:32.615Z'),
     },
@@ -23,141 +21,119 @@ function makeUsersArray() {
       id: 3,
       user_name: 'test-user-3',
       full_name: 'Test user 3',
-      nickname: 'TU3',
       password: 'password',
       date_created: new Date('2029-01-22T16:28:32.615Z'),
     },
-    {
-      id: 4,
-      user_name: 'test-user-4',
-      full_name: 'Test user 4',
-      nickname: 'TU4',
-      password: 'password',
-      date_created: new Date('2029-01-22T16:28:32.615Z'),
-    },
+    
   ]
 }
 
-function makeArticlesArray(users) {
+function makeChildrenArray(users) {
   return [
     {
       id: 1,
-      title: 'First test post!',
-      style: 'How-to',
-      author_id: users[0].id,
+      user_id: users[0].id,
       date_created: new Date('2029-01-22T16:28:32.615Z'),
-      content: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus consequuntur deserunt commodi, nobis qui inventore corrupti iusto aliquid debitis unde non.Adipisci, pariatur.Molestiae, libero esse hic adipisci autem neque ?',
+      name: 'John Doe',
     },
     {
       id: 2,
-      title: 'Second test post!',
-      style: 'Interview',
-      author_id: users[1].id,
+      user_id: users[1].id,
       date_created: new Date('2029-01-22T16:28:32.615Z'),
-      content: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus consequuntur deserunt commodi, nobis qui inventore corrupti iusto aliquid debitis unde non.Adipisci, pariatur.Molestiae, libero esse hic adipisci autem neque ?',
+      name: 'James Doe',
     },
     {
       id: 3,
-      title: 'Third test post!',
-      style: 'News',
-      author_id: users[2].id,
+      user_id: users[2].id,
       date_created: new Date('2029-01-22T16:28:32.615Z'),
-      content: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus consequuntur deserunt commodi, nobis qui inventore corrupti iusto aliquid debitis unde non.Adipisci, pariatur.Molestiae, libero esse hic adipisci autem neque ?',
+      name: 'Jenny Doe',
     },
-    {
-      id: 4,
-      title: 'Fourth test post!',
-      style: 'Listicle',
-      author_id: users[3].id,
-      date_created: new Date('2029-01-22T16:28:32.615Z'),
-      content: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus consequuntur deserunt commodi, nobis qui inventore corrupti iusto aliquid debitis unde non.Adipisci, pariatur.Molestiae, libero esse hic adipisci autem neque ?',
-    },
+    
   ]
 }
 
-function makeUpdatesArray(users, articles) {
+function postUpdatesArray(users, children) {
   return [
     {
       id: 1,
       text: 'First test update!',
-      article_id: articles[0].id,
+      child_id: children[0].id,
       user_id: users[0].id,
       date_created: new Date('2029-01-22T16:28:32.615Z'),
     },
     {
       id: 2,
       text: 'Second test update!',
-      article_id: articles[0].id,
+      child_id: children[0].id,
       user_id: users[1].id,
       date_created: new Date('2029-01-22T16:28:32.615Z'),
     },
     {
       id: 3,
       text: 'Third test update!',
-      article_id: articles[0].id,
+      child_id: children[0].id,
       user_id: users[2].id,
       date_created: new Date('2029-01-22T16:28:32.615Z'),
     },
     {
       id: 4,
       text: 'Fourth test update!',
-      article_id: articles[0].id,
-      user_id: users[3].id,
+      child_id: children[0].id,
+      user_id: users[2].id,
       date_created: new Date('2029-01-22T16:28:32.615Z'),
     },
     {
       id: 5,
       text: 'Fifth test update!',
-      article_id: articles[articles.length - 1].id,
+      child_id: children[children.length - 1].id,
       user_id: users[0].id,
       date_created: new Date('2029-01-22T16:28:32.615Z'),
     },
     {
       id: 6,
       text: 'Sixth test update!',
-      article_id: articles[articles.length - 1].id,
+      child_id: children[children.length - 1].id,
       user_id: users[2].id,
       date_created: new Date('2029-01-22T16:28:32.615Z'),
     },
     {
       id: 7,
       text: 'Seventh test update!',
-      article_id: articles[3].id,
+      child_id: children[2].id,
       user_id: users[0].id,
       date_created: new Date('2029-01-22T16:28:32.615Z'),
     },
   ];
 }
 
-function makeExpectedArticle(users, article, updates=[]) {
+function makeExpectedArticle(users, child, updates=[]) {
   const author = users
-    .find(user => user.id === article.author_id)
+    .find(user => user.id === child.author_id)
 
   const number_of_updates = updates
-    .filter(update => update.article_id === article.id)
+    .filter(update => update.child_id === child.id)
     .length
 
   return {
-    id: article.id,
-    style: article.style,
-    title: article.title,
-    content: article.content,
-    date_created: article.date_created.toISOString(),
+    id: child.id,
+    style: child.style,
+    title: child.title,
+    content: child.content,
+    date_created: child.date_created.toISOString(),
     number_of_updates,
     author: {
       id: author.id,
       user_name: author.user_name,
       full_name: author.full_name,
-      nickname: author.nickname,
       date_created: author.date_created.toISOString(),
       date_modified: author.date_modified || null,
     },
   }
 }
 
-function makeExpectedArticleUpdates(users, articleId, updates) {
+function makeExpectedArticleUpdates(users, childId, updates) {
   const expectedUpdates = updates
-    .filter(update => update.article_id === articleId)
+    .filter(update => update.child_id === childId)
 
   return expectedUpdates.map(update => {
     const updateUser = users.find(user => user.id === update.user_id)
@@ -169,7 +145,6 @@ function makeExpectedArticleUpdates(users, articleId, updates) {
         id: updateUser.id,
         user_name: updateUser.user_name,
         full_name: updateUser.full_name,
-        nickname: updateUser.nickname,
         date_created: updateUser.date_created.toISOString(),
         date_modified: updateUser.date_modified || null,
       }
@@ -199,8 +174,8 @@ function makeMaliciousArticle(user) {
 
 function makeArticlesFixtures() {
   const testUsers = makeUsersArray()
-  const testArticles = makeArticlesArray(testUsers)
-  const testUpdates = makeUpdatesArray(testUsers, testArticles)
+  const testArticles = makeChildrenArray(testUsers)
+  const testUpdates = postUpdatesArray(testUsers, testArticles)
   return { testUsers, testArticles, testUpdates }
 }
 
@@ -208,19 +183,19 @@ function cleanTables(db) {
   return db.transaction(trx =>
     trx.raw(
       `TRUNCATE
-        articles,
+        children,
         users,
-        updates
+        child_updates
       `
     )
     .then(() =>
       Promise.all([
-        trx.raw(`ALTER SEQUENCE articles_id_seq minvalue 0 START WITH 1`),
+        trx.raw(`ALTER SEQUENCE children_id_seq minvalue 0 START WITH 1`),
         trx.raw(`ALTER SEQUENCE users_id_seq minvalue 0 START WITH 1`),
-        trx.raw(`ALTER SEQUENCE updates_id_seq minvalue 0 START WITH 1`),
-        trx.raw(`SELECT setval('articles_id_seq', 0)`),
+        trx.raw(`ALTER SEQUENCE child_updates_id_seq minvalue 0 START WITH 1`),
+        trx.raw(`SELECT setval('children_id_seq', 0)`),
         trx.raw(`SELECT setval('users_id_seq', 0)`),
-        trx.raw(`SELECT setval('updates_id_seq', 0)`),
+        trx.raw(`SELECT setval('child_updates_id_seq', 0)`),
       ])
     )
   )
@@ -241,33 +216,33 @@ function seedUsers(db, users) {
     )
 }
 
-function seedArticlesTables(db, users, articles, updates=[]) {
+function seedArticlesTables(db, users, children, updates=[]) {
   // use a transaction to group the queries and auto rollback on any failure
   return db.transaction(async trx => {
     await seedUsers(trx, users)
-    await trx.into('articles').insert(articles)
+    await trx.into('children').insert(children)
     // update the auto sequence to match the forced id values
     await trx.raw(
-      `SELECT setval('articles_id_seq', ?)`,
-      [articles[articles.length - 1].id],
+      `SELECT setval('children_id_seq', ?)`,
+      [children[children.length - 1].id],
     )
     // only insert updates if there are some, also update the sequence counter
     if (updates.length) {
-      await trx.into('updates').insert(updates)
+      await trx.into('child_updates').insert(updates)
       await trx.raw(
-        `SELECT setval('updates_id_seq', ?)`,
+        `SELECT setval('child_updates_id_seq', ?)`,
         [updates[updates.length - 1].id],
       )
     }
   })
 }
 
-function seedMaliciousArticle(db, user, article) {
+function seedMaliciousArticle(db, user, child) {
   return seedUsers(db, [user])
     .then(() =>
       db
-        .into('articles')
-        .insert([article])
+        .into('children')
+        .insert([child])
     )
 }
 
@@ -281,11 +256,9 @@ function makeAuthHeader(user, secret = process.env.JWT_SECRET) {
 
 module.exports = {
   makeUsersArray,
-  makeArticlesArray,
   makeExpectedArticle,
   makeExpectedArticleUpdates,
   makeMaliciousArticle,
-  makeUpdatesArray,
 
   makeArticlesFixtures,
   cleanTables,

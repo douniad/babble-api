@@ -3,7 +3,7 @@ const xss = require('xss')
 const UpdatesService = {
   getByChildId(db, id) {
     return db
-      .from('updates')
+      .from('child_updates')
       .select(
        "*"
       )
@@ -15,7 +15,7 @@ const UpdatesService = {
   insertUpdate(db, newUpdate) {
     return db
       .insert(newUpdate)
-      .into('updates')
+      .into('child_updates')
       .returning('*')
       .then(([update]) => update)
   },
@@ -30,6 +30,11 @@ const UpdatesService = {
       user_id: update.user_id
 
     }
+  },
+  deleteUpdate(db, id) {
+    return db('child_updates')
+    .where({id})
+    .del()
   }
 }
 

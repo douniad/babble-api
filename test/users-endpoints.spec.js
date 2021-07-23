@@ -39,7 +39,6 @@ describe('Users Endpoints', function() {
           user_name: 'test user_name',
           password: 'test password',
           full_name: 'test full_name',
-          nickname: 'test nickname',
         }
 
         it(`responds with 400 required error when '${field}' is missing`, () => {
@@ -63,7 +62,7 @@ describe('Users Endpoints', function() {
         return supertest(app)
           .post('/api/users')
           .send(userShortPassword)
-          .expect(400, { error: `Password be longer than 8 characters` })
+          .expect(400, { error: `Password must be longer than 8 characters` })
       })
 
       it(`responds 400 'Password be less than 72 characters' when long password`, () => {
@@ -75,7 +74,7 @@ describe('Users Endpoints', function() {
         return supertest(app)
           .post('/api/users')
           .send(userLongPassword)
-          .expect(400, { error: `Password be less than 72 characters` })
+          .expect(400, { error: `Password must be less than 72 characters` })
       })
 
       it(`responds 400 error when password starts with spaces`, () => {
@@ -87,7 +86,7 @@ describe('Users Endpoints', function() {
         return supertest(app)
           .post('/api/users')
           .send(userPasswordStartsSpaces)
-          .expect(400, { error: `Password must not start or end with empty spaces` })
+          .expect(400, { error: `Password cannot start or end with empty spaces` })
       })
 
       it(`responds 400 error when password ends with spaces`, () => {
@@ -99,20 +98,9 @@ describe('Users Endpoints', function() {
         return supertest(app)
           .post('/api/users')
           .send(userPasswordEndsSpaces)
-          .expect(400, { error: `Password must not start or end with empty spaces` })
+          .expect(400, { error: `Password cannot start or end with empty spaces` })
       })
 
-      it(`responds 400 error when password isn't complex enough`, () => {
-        const userPasswordNotComplex = {
-          user_name: 'test user_name',
-          password: '11AAaabb',
-          full_name: 'test full_name',
-        }
-        return supertest(app)
-          .post('/api/users')
-          .send(userPasswordNotComplex)
-          .expect(400, { error: `Password must contain one upper case, lower case, number and special character` })
-      })
 
       it(`responds 400 'User name already taken' when user_name isn't unique`, () => {
         const duplicateUser = {
@@ -142,12 +130,9 @@ describe('Users Endpoints', function() {
             expect(res.body).to.have.property('id')
             expect(res.body.user_name).to.eql(newUser.user_name)
             expect(res.body.full_name).to.eql(newUser.full_name)
-            expect(res.body.nickname).to.eql('')
             expect(res.body).to.not.have.property('password')
             expect(res.headers.location).to.eql(`/api/users/${res.body.id}`)
-            const expectedDate = new Date().toLocaleString('en', { timeZone: 'UTC' })
-            const actualDate = new Date(res.body.date_created).toLocaleString()
-            expect(actualDate).to.eql(expectedDate)
+          
           })
           .expect(res =>
             db
@@ -158,10 +143,7 @@ describe('Users Endpoints', function() {
               .then(row => {
                 expect(row.user_name).to.eql(newUser.user_name)
                 expect(row.full_name).to.eql(newUser.full_name)
-                expect(row.nickname).to.eql(null)
-                const expectedDate = new Date().toLocaleString('en', { timeZone: 'UTC' })
-                const actualDate = new Date(row.date_created).toLocaleString()
-                expect(actualDate).to.eql(expectedDate)
+              
 
                 return bcrypt.compare(newUser.password, row.password)
               })
