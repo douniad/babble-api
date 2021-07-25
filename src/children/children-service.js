@@ -8,8 +8,8 @@ const ChildrenService = {
       .where({user_id})
   },
 
-  getById(db, id) {
-    return ChildrenService.getAllChildren(db)
+  getById(db, user_id, id) {
+    return ChildrenService.getAllChildren(db, user_id)
       .where('id', id)
       .first()
   },

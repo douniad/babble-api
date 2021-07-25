@@ -82,6 +82,7 @@ async function checkChildExists(req, res, next) {
   try {
     const child = await ChildrenService.getById(
       req.app.get('db'),
+      req.user.id,
       req.params.child_id
     )
 
