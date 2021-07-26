@@ -27,10 +27,10 @@ app.use('/api/users', usersRouter)
 
 app.use(function errorHandler(error, req, res, next) {
   let response
+  console.error(error)
   if (NODE_ENV === 'production') {
     response = { error: 'Server error' }
   } else {
-    console.error(error)
     response = { error: error.message, object: error }
   }
   res.status(500).json(response)
