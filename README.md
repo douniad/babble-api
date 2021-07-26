@@ -1,31 +1,41 @@
-# Babble API Auth!
+# babble API 
 
-## Scripts
+A communications app to facilitate the exchange between parents and caregivers.
 
-Start the application `npm start`
+This is the backend for `babble-ten.vercel.app/`. A live version of the app can be found at https://babble-ten.vercel.app/.
 
-Start nodemon for the application `npm run dev`
+The frontend client of this repo can be found at https://github.com/douniad/babble.
 
-Run the tests in watch mode `npm test`
+## Summary
 
-Migrate the dev database `npm run migrate`
+Everyone gets stressed dealing with everyday life and it's easy for mundane things to slip your mind. But when children are involved, that cannot happen. With babble, caregivers and parents are on the same page (quite literally). By sharing one account, everyone is able to stay on top of everything. Start by adding the child(ren) to the childboard and keep each other up to date by posting updates.
 
-Migrate the test database `npm run migrate:test`
+Happy babbling!
 
-## Configuring Postgres
+## Technology
 
-For tests involving time to run properly, configure your Postgres database to run in the UTC timezone.
+### Backend
 
-1. Locate the `postgresql.conf` file for your Postgres installation.
-   1. E.g. for an OS X, Homebrew install: `/usr/local/var/postgres/postgresql.conf`
-   2. E.g. on Windows, _maybe_: `C:\Program Files\PostgreSQL\11.2\data\postgresql.conf`
-2. Find the `timezone` line and set it to `UTC`:
+#### Node and Express
 
-```conf
-# - Locale and Formatting -
+• Authentication via JWT
+• RESTful API
 
-datestyle = 'iso, mdy'
-#intervalstyle = 'postgres'
-timezone = 'UTC'
-#timezone_abbreviations = 'Default'     # Select the set of available time zone
-```
+#### Testing
+
+• Supertest
+• Mocha and Chai
+
+#### Database
+
+• Postgres
+• Knex.js - SQL Wrapper
+
+#### Production
+
+• Deployed via Heroku
+
+## Screenshots
+
+![IMG_1625](https://user-images.githubusercontent.com/59784097/127070831-0a96cc37-4b90-4944-a513-155f58815ae9.jpeg)
+![IMG_1626](https://user-images.githubusercontent.com/59784097/127070837-5039dfe5-9eb2-4c7b-bdfd-697f3c05e74b.jpeg)
