@@ -39,3 +39,11 @@ Happy babbling!
 
 ![IMG_1625](https://user-images.githubusercontent.com/59784097/127070831-0a96cc37-4b90-4944-a513-155f58815ae9.jpeg)
 ![IMG_1626](https://user-images.githubusercontent.com/59784097/127070837-5039dfe5-9eb2-4c7b-bdfd-697f3c05e74b.jpeg)
+
+
+## API Endpoints
+
+/api/children
+/api/updates
+/api/auth
+api/users
