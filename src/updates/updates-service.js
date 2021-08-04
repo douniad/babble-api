@@ -21,7 +21,6 @@ const UpdatesService = {
   },
 
   serializeUpdate(update) {
-    const { user } = update
     return {
       id: update.id,
       text: xss(update.text),

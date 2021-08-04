@@ -39,9 +39,9 @@ updatesRouter
     .route('/:childId')
     .get((req, res, next) => {
       UpdatesService.getByChildId(req.app.get('db'),req.params.childId)
-        .then(children => {
-          console.log(children)
-          res.json(children.map(ChildrenService.serializeChild))
+        .then(updates => {
+          console.log(updates)
+          res.json(updates.map(UpdatesService.serializeUpdate))
         })
         .catch(next)
     })
